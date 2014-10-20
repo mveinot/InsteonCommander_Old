@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui network
+QT       += core gui network svg
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -23,3 +23,5 @@ FORMS    += mainwindow.ui \
 
 RESOURCES += \
     InsteonCommander.qrc
+
+ICON = power.icns
