@@ -58,6 +58,11 @@ void DeviceControl::fileIsReady(QNetworkReply *reply)
     bool ok;
 
     QString response_code = QString(response[10]).append(response[11]);
+    if (response_code == "XX")
+    {
+        enableUI(-2);
+        return;
+    }
     const unsigned int status = response_code.toUInt(&ok, 16);
     int pct_status = (static_cast<int>(status) * 100) / 255;
     if (ok)
@@ -99,6 +104,10 @@ void DeviceControl::enableUI(int in_value)
     {
         ui->horizontalSlider->setSliderPosition(in_value);
         ui->percentLabel->setText(QString("%1%").arg(in_value));
+    } else if (in_value == -2)
+    {
+        ui->percentLabel->setText("Err");
+        ui->percentLabel->setToolTip("Couldn't retrieve device status");
     }
 
     if (insteonDevice->getType() == 91)
