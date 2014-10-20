@@ -65,7 +65,7 @@ void DeviceControl::fileIsReady(QNetworkReply *reply)
         enableUI(pct_status);
     } else
     {
-        enableUI(0);
+        enableUI(-1);
     }
 }
 
@@ -95,7 +95,12 @@ void DeviceControl::enableUI(int in_value)
 {
     ui->btn_deviceOff->setEnabled(true);
     ui->btn_deviceOn->setEnabled(true);
-    ui->horizontalSlider->setSliderPosition(in_value);
+    if (in_value >= 0)
+    {
+        ui->horizontalSlider->setSliderPosition(in_value);
+        ui->percentLabel->setText(QString("%1%").arg(in_value));
+    }
+
     if (insteonDevice->getType() == 91)
     {
         ui->horizontalSlider->setEnabled(true);
@@ -123,6 +128,7 @@ void DeviceControl::on_btn_deviceOff_clicked()
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
     insteonHub->setCommand(OFF);
     insteonHub->setLevel(0,false);
+    ui->percentLabel->setText(QString("%1%").arg(0));
     QUrl command(QString::fromStdString(insteonHub->getURL()));
     manager->get(QNetworkRequest(command));
 }
@@ -133,6 +139,7 @@ void DeviceControl::on_btn_deviceOn_clicked()
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
     insteonHub->setCommand(ON);
     insteonHub->setLevel(100,false);
+    ui->percentLabel->setText(QString("%1%").arg(100));
     QUrl command(QString::fromStdString(insteonHub->getURL()));
     manager->get(QNetworkRequest(command));
 }
