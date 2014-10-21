@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/res/img">
         <file>power.svg</file>
+        <file>power-black.svg</file>
     </qresource>
 </RCC>
