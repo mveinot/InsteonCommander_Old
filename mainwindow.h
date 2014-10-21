@@ -30,6 +30,7 @@ private slots:
     void deviceClicked(QAction *action);
 
 private:
+    bool color_icon;
     Ui::MainWindow *ui;
     QFile *xml_file;
     QXmlStreamReader *xml_stream;

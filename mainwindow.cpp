@@ -11,6 +11,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    color_icon = false;
+
     loadDevices();
     showTrayIcon();
 }
@@ -22,8 +24,15 @@ MainWindow::~MainWindow()
 
 void MainWindow::showTrayIcon()
 {
+    QIcon trayIcon;
     sti = new QSystemTrayIcon(this);
-    QIcon trayIcon(":/res/img/power.svg");
+    if (color_icon)
+    {
+        trayIcon = QIcon(":/res/img/power.svg");
+    } else
+    {
+        trayIcon = QIcon(":/res/img/power-black.svg");
+    }
     sti->setIcon(trayIcon);
     sti->setVisible(true);
 
@@ -112,6 +121,11 @@ void MainWindow::loadDevices()
             if (name == "ip")
             {
                 IP = xml_stream->readElementText();
+            }
+
+            if (name == "color_icon")
+            {
+                color_icon = (xml_stream->readElementText() == "true");
             }
 
             if (name == "device")
